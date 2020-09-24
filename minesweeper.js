@@ -7,6 +7,8 @@ var board = {}
 
 
 
+
+
 // var board = {
 //   cells : [
 //     {row:0, col:0, isMine:true, hidden: true}, 
