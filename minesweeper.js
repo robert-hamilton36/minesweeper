@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', startGame)
 
 var board = {}
 
-
+let boardSize = 4
+let numberOfMines = (boardSize*boardSize/3)
 
 
 
@@ -32,9 +33,11 @@ var board = {}
 
 
 function startGame () {
-  board = createBoard(4,10)
+  board = createBoard(boardSize,numberOfMines)
+  createMineOptions()
   document.addEventListener ("click", checkForWin)
   document.addEventListener ("contextmenu", checkForWin)
+  // document.addEventListener ("submit", howManyMines(this.value))
 
   for (i in board.cells){
     board.cells[i].surroundingMines = countSurroundingMines (board.cells[i])
@@ -79,8 +82,13 @@ function countSurroundingMines (cell) {
 }
 
 
-function createBoard (value = 4, bombs = (value*value/3)){
+// function createBoard (value = 4, bombs = (value*value/3)){
+function createBoard (value , bombs){
   clearBoard()
+
+  value = value || boardSize
+  bombs = bombs || (value*value/3)
+
   let board = {
     cells:[]
   }
@@ -127,13 +135,26 @@ function clearBoard(){
 }
 
 
-function boardSize(value){
+function changeBoardSize(value){
+  console.log(boardSize)
+  boardSize = value
+  console.log(boardSize)
   board = createBoard(value)
   console.log(value)
   for (i in board.cells){
     board.cells[i].surroundingMines = countSurroundingMines (board.cells[i])
   }
+  createMineOptions(value)
   lib.initBoard()
+}
+
+function restart(){
+  board=createBoard(boardSize, numberOfMines)
+  for (i in board.cells){
+    board.cells[i].surroundingMines = countSurroundingMines (board.cells[i])
+  }
+  lib.initBoard()
+  return 
 }
 
 
@@ -144,4 +165,63 @@ function checkAllHidden(board){
     }
     return true
   } 
+}
+
+function chooseMine(){
+  difficulty((boardSize*boardSize/3))
+  var checkBox = document.getElementById("mineChoice")
+
+  var mineEntry = document.getElementById("mineEntryField")
+
+  if(checkBox.checked == true){
+    mineEntry.style.display = "inline-block";
+  } else {
+    mineEntry.style.display = "none";
+  }
+
+}
+
+function howManyMines(value){
+  console.log("this worked")
+  numberOfMines = value
+  console.log(numberOfMines)
+  restart()
+  board = createBoard(boardSize, numberOfMines)
+  lib.initBoard()
+}
+
+
+function createMineOptions(value){
+
+  console.log("changing" + value)
+  let element = document.getElementById("mineValue");
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
+  for(var i = 0; i < (boardSize*boardSize); i++){
+    var opt = document.createElement('option');
+    if(i+1 == value){
+      opt.selected = "selected"
+    }
+    opt.value = i+1;
+    opt.innerHTML = i+1;
+    document.getElementById('mineValue').appendChild(opt);
+  }
+
+
+}
+
+function difficulty(value){
+  console.log(value)
+  numberOfMines = value
+  console.log
+  clearBoard()
+  board = createBoard(boardSize, numberOfMines)
+  for (i in board.cells){
+    board.cells[i].surroundingMines = countSurroundingMines (board.cells[i])
+  }
+  createMineOptions(value)
+  lib.initBoard()
+  console.log(numberOfMines+" mines")
+
 }
