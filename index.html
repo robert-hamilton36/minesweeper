@@ -9,34 +9,27 @@
   </head>
   <body>
     <div id="message"></div>
+
     <select onchange = "changeBoardSize(this.value)">
+      <option value="2">2 x 2</option>
       <option value="3">3 x 3</option>
       <option selected = "selected" value="4">4 x 4</option>
       <option value=5>5 x 5</option>
       <option value=6>6 x 6</option>
-      <option value=7>7 x 7</option>
-      <option value=8>8 x 8</option>
-      <option value=9>9 x 9</option>
     </select>
 
     <form>
       <input type="checkbox" id="mineChoice" onclick="chooseMine()">
       Manually choose mine amount
     </form>
-    
-    <!-- <input type="text" id="mineEntryField" style="display:none"> -->
+
     <form  id="mineEntryField" style="display:none">
-      <!-- How many Mines? <input id="mineNumber" type="number" min="0"> -->
-      <!-- <input type="submit"> -->
-      <select id = "mineValue" onchange = "difficulty(this.value)">
+      <select id = "mineValue" onchange = "changeNumberOfBombs(this.value)">
       </select>
     </form>
 
-    
-    
-
     <div id="notes"></div>
     <div class="board"></div>
-    <button onclick="restart()">Play again?</button>
+    <button onclick="startGame()">Play again?</button>
   </body>
 </html>
